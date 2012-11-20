@@ -5,9 +5,8 @@ indir <- args[1]
 target <- args[2]
 use.weights <- as.logical(args[3])
 out_type <- args[4]
+resampling <- as.double(args[5])
 
-
-resampling <- 1000
 path=paste(indir, target, sep="/")
 genos = read.table(paste(path, ".geno", sep=""), header=F)
 pheno = read.table(paste(path, ".pheno", sep=""), header=F, na.strings="-9")

@@ -7,9 +7,9 @@ INDIR=$2
 ROOTDIR=$3
 PHENO=$4
 USE_WEIGHTS=$5
-NPERM=1000
-MAXPERM=1e6 #used to be 1e10 ... long run time for a few jobs.
-NONSIG=500
+NPERM=$6
+MAXPERM=$7 #used to be 1e10 ... long run time for a few jobs.
+NONSIG=$8
 
 if [ ! -f "$TARGETLIST" ]; then
     echo "Target file does not exist"

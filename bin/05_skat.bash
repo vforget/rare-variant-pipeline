@@ -8,6 +8,7 @@ ROOTDIR=$3
 PHENO=$4
 USE_WEIGHTS=$5
 TRAIT_TYPE=$6
+RESAMP=$7
 
 if [ ! -f "$TARGETLIST" ]; then
     echo "Target file does not exist"
@@ -76,7 +77,7 @@ do
     
     cat > ${jobdir}/${RID}.job <<EOF
 $bindir/vcf2skat.py ${targetfile} ${PHENO} ${genofile} ${phenofile} ${weightfile} ${samplefile} ${snpfile}
-Rscript $bindir/skat.r ${outdir} ${target} ${USE_WEIGHTS} $TRAIT_TYPE > ${outdir}/${target}.skatout 2> ${outdir}/${target}.R.log
+Rscript $bindir/skat.r ${outdir} ${target} ${USE_WEIGHTS} $TRAIT_TYPE ${RESAMP} > ${outdir}/${target}.skatout 2> ${outdir}/${target}.R.log
 grep ${target} ${outdir}/${target}.skatout | perl -p -e "s/.*\"([^\"]+)\".*/\1/g;" > ${outdir}/${target}.skline
 EOF
     chmod 755 ${jobdir}/${RID}.job
