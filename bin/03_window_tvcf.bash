@@ -90,4 +90,6 @@ cat > ${OUTDIR}/submit_jobs.${JID}.bash << EOT
 ${jobdir}/\$SGE_TASK_ID.job
 EOT
 chmod 755 ${OUTDIR}/submit_jobs.${JID}.bash
-qsub -t 1-${RID} ${sge_options} ${OUTDIR}/submit_jobs.${JID}.bash
+qsub -t 1-${RID} -sync y ${sge_options} ${OUTDIR}/submit_jobs.${JID}.bash > $progname.log
+echo "${progname}: List of window targets in windows.txt"
+ls $window_outdir | perl -p -e "s/\.vcf//g;" > windows.txt

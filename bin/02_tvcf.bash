@@ -90,7 +90,7 @@ EOF
 done < ${NAME_LIST_FILE}
 
 # Prepare and execute SGE array job
-echo "r${progname}: Executing SGE array job"
+echo "${progname}: Executing array job. Array output in ${progname}.log"
 JID="target$RANDOM"
 cat > ${OUTDIR}/submit_jobs.${JID}.bash << EOT
 #!/bin/bash
@@ -98,4 +98,4 @@ cat > ${OUTDIR}/submit_jobs.${JID}.bash << EOT
 ${jobdir}/\$SGE_TASK_ID.job
 EOT
 chmod 755 ${OUTDIR}/submit_jobs.${JID}.bash
-qsub -t 1-${RID} ${sge_options} ${OUTDIR}/submit_jobs.${JID}.bash
+qsub -t 1-${RID} ${sge_options} -sync y ${OUTDIR}/submit_jobs.${JID}.bash > ${progname}.log
