@@ -10,6 +10,7 @@ USE_WEIGHTS=$5
 NPERM=$6
 MAXPERM=$7 #used to be 1e10 ... long run time for a few jobs.
 NONSIG=$8
+jid=$9
 
 if [ ! -f "$TARGETLIST" ]; then
     echo "Target file does not exist"
@@ -81,7 +82,7 @@ EOF
 done < ${TARGETLIST}
 
 # Prepare and execute SGE array job
-jid="r$progname$RANDOM"
+
 cat > ${ROOTDIR}/submit_jobs.${jid}.bash << EOT
 #!/bin/bash
 #$ ${sge_options} -N ${jid}
@@ -91,5 +92,5 @@ EOT
 chmod 755 ${ROOTDIR}/submit_jobs.${jid}.bash
 qsub -t 1-${RID} ${sge_options} ${ROOTDIR}/submit_jobs.${jid}.bash
 echo "TARGET,NMARKERS,PVALUE,NPERM,NONSIGNCOUNT" > ${ROOTDIR}/rr_results.txt
-echo "cat ${outdir}/*.rrline >> ${ROOTDIR}/rr_results.txt" | qsub ${sge_options} -hold_jid ${jid} -N m$RANDOM
+echo "cat ${outdir}/*.rrline >> ${ROOTDIR}/rr_results.txt" | qsub ${sge_options} -hold_jid ${jid} -N rrm$RANDOM
 echo "Output will be in ${ROOTDIR}"

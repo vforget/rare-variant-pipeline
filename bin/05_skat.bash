@@ -9,6 +9,7 @@ PHENO=$4
 USE_WEIGHTS=$5
 TRAIT_TYPE=$6
 RESAMP=$7
+jid=$8
 
 if [ ! -f "$TARGETLIST" ]; then
     echo "Target file does not exist"
@@ -84,7 +85,7 @@ EOF
 done < ${TARGETLIST}
 
 # Prepare and execute SGE array job
-jid="r$progname$RANDOM"
+
 cat > ${ROOTDIR}/submit_jobs.${jid}.bash << EOT
 #!/bin/bash
 #$ ${sge_options} -N ${jid}
@@ -93,5 +94,5 @@ EOT
 chmod 755 ${ROOTDIR}/submit_jobs.${jid}.bash
 qsub -t 1-${RID} ${sge_options} ${ROOTDIR}/submit_jobs.${jid}.bash
 echo "TARGET,NMARKER,NMARKER.TEST,P.VALUE,PVALUE.LIU,PVALUE.RESAMP" > ${ROOTDIR}/skat_results.txt
-echo "cat ${outdir}/*.skline >> ${ROOTDIR}/skat_results.txt" | qsub ${sge_options} -hold_jid ${jid} -N m$RANDOM
+echo "cat ${outdir}/*.skline >> ${ROOTDIR}/skat_results.txt" | qsub ${sge_options} -hold_jid ${jid} -N skatm$RANDOM
 echo "Output will be in ${ROOTDIR}"

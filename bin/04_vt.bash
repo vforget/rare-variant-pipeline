@@ -6,6 +6,7 @@ TARGETLIST=$1
 INDIR=$2
 ROOTDIR=$3
 PHENOFILE=$4
+JID=$5
 
 if [ ! -f "$TARGETLIST" ]; then
     echo "Target file does not exist"
@@ -94,7 +95,6 @@ EOF
 done < ${TARGETLIST}
 # Prepare and execute SGE array job
 
-JID="r$progname$RANDOM"
 cat > ${ROOTDIR}/submit_jobs.${JID}.bash << EOT
 #!/bin/bash
 #$ ${sge_options} -N ${JID}
@@ -104,4 +104,4 @@ chmod 755 ${ROOTDIR}/submit_jobs.${JID}.bash
 qsub -t 1-${RID} ${sge_options} ${ROOTDIR}/submit_jobs.${JID}.bash
 echo "TARGET,N_Markers,PHENO,T1,T1P,T5,T5P,WE,WEP,VT,VTP,NEGSTAT.B.01,NEGSTAT.B.05" > \
     ${ROOTDIR}/vt_results.txt
-echo "cat ${outdir}/*.vtline >> ${ROOTDIR}/vt_results.txt" | qsub ${sge_options} -hold_jid ${JID} -N m$RANDOM
+echo "cat ${outdir}/*.vtline >> ${ROOTDIR}/vt_results.txt" | qsub ${sge_options} -hold_jid ${JID} -N vtm$RANDOM
