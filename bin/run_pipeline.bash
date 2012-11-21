@@ -9,7 +9,7 @@ Run the RVA pipeline.
 
 EXAMPLE:
 
-run_pipeline.sh [-h] [-m file -p file] [options]
+run_pipeline.sh [-h] [-r file -t file -v dir -p file -x file] [options]
 
 -h                  Show this message
 
