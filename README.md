@@ -61,16 +61,12 @@ The following files are required by the pipeline:
 
 * **Phenotype file:** A file containing phenotype values per sample. Format of the file is:
 
-   UK10K\_124350    -2.769557  
-   UK10K\_88736     -2.529971  
-   QTL210350       -2.521555  
-   QTL218819       -2.39639  
-   QTL211631       -2.383679  
-   UK10K\_TW5124812 -2.374143  
-   UK10K\_137674    -2.339074  
-   QTL218614       -2.235212  
-   QTL190321       -2.209102  
-   QTL210568       -2.16449  
+	sample\_id\_1    value1  
+    sample\_id\_2    value2  
+    sample\_id\_3    value3  
+    sample\_id\_4    value4  
+    sample\_id\_5    value5  
+    sample\_id\_6    value6  
 
   Each line consists of 2 fields: sample name, phenotype value. The file is specified to the pipeline via the -p option.
 
@@ -171,8 +167,8 @@ To run the pipeline execute the following command:
     run\_pipeline.bash  
 	    -r regions.txt \
 		-t targets.txt \
-		-v ~/share/UK10K_COHORT/REL-2011-12-01/v4/ \
-		-p pheno/pheno_FA_uk10k.txt \
+		-v <path_to_VCF_files> \
+		-p pheno.txt \
 		-x params.txt \
 	
 A description of all command line flags:
@@ -195,7 +191,7 @@ Alternatively, to try 50 randomly selected genes:
  
 `cut -f 4 -d ' ' ~/share/UK10K_exomes/exomes.range.txt | sort | uniq | sort -R | head -n 50 > targets.txt`
 
-Generate phenotype file (FA\_adj\_std):
+Generate phenotype file:
 
 `cut -f 2,6 ~/share/UK10K_exomes/merged/pheno.txt | tail -n +2 > pheno.txt`
 	
@@ -206,6 +202,6 @@ Run pipeline:
 	run_pipeline.bash \  
 	    -r ~/share/UK10K_exomes/exomes.range.txt \  
 		-t targets.rand50.txt \  
-		-v ~/share/UK10K\_COHORT/REL-2011-12-01/v4/ \  
+		-v <path_to_UK10K_release> \  
 		-p pheno.txt \  
 		-x params.txt
