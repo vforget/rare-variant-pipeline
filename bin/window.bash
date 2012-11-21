@@ -12,6 +12,14 @@ grep '^#' ${TARGET_VCF_DIR}/${target}.vcf > ${WINDOW_OUTDIR}/${target}.header.vc
 wid=0
 
 let rend=$lc-$STEPSIZE
+
+if [ "$lc" -lt "$WINSIZE" ]; then
+    cat ${WINDOW_OUTDIR}/${target}.header.vcf > ${WINDOW_OUTDIR}/${target}.1.vcf
+    grep -v '^#' ${TARGET_VCF_DIR}/${target}.vcf >> ${WINDOW_OUTDIR}/${target}.1.vcf
+    rm ${WINDOW_OUTDIR}/${target}.header.vcf
+    exit
+fi
+
 for i in $(seq 0 ${STEPSIZE} ${rend})
 do
     let wid=$wid+1
