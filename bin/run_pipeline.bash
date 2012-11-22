@@ -156,7 +156,7 @@ rr_jid=rr$RANDOM
 # Run VT
 if [ "$VT_RUN" == "Y" ]; then
     echo "** VT **"
-    $bindir/04_vt.bash $TARGET_FILE $target_vcfdir/output/ $vtout/ $PHENO_FILE $vt_jid
+    $bindir/04_vt.bash $TARGET_FILE $target_vcfdir/output/ $vtout/ $PHENO_FILE $VT_NPERM $VT_USE_WEIGHTS $vt_jid
 fi
 
 # Run SKAT

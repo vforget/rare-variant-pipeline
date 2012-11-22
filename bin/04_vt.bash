@@ -6,7 +6,9 @@ TARGETLIST=$1
 INDIR=$2
 ROOTDIR=$3
 PHENOFILE=$4
-JID=$5
+VT_PERM_NUM=$5
+VT_USE_WEIGHTS=$6
+JID=$7
 
 if [ ! -f "$TARGETLIST" ]; then
     echo "Target file does not exist"
@@ -28,7 +30,7 @@ fi
 targetext=".vcf"
 genoext=".geno"
 weightext=".weight"
-VT_PERM_NUM=1000
+
 SGE_CORES=0
 
 # INTERNAL PARAMETERS
@@ -68,7 +70,7 @@ do
     weightfile=${outdir}/${target}.weight
 
     cat > ${jobdir}/${RID}.job <<EOF
-$bindir/vcf2vt.py ${targetfile} ${weightfile} ${genofile}
+$bindir/vcf2vt.py ${targetfile} ${weightfile} ${genofile} ${VT_USE_WEIGHTS}
 Rscript ${bindir}/vt.r \
     -p ${VT_PERM_NUM} \
     -n ${SGE_CORES} \

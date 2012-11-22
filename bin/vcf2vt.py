@@ -56,6 +56,7 @@ if __name__ == "__main__":
     vcf_file = sys.argv[1]
     weight_outfile = sys.argv[2]
     geno_outfile = sys.argv[3]
+    use_weights = sys.argv[4]
     weight_str = ""
     geno_str = ""
     seen = []
@@ -68,7 +69,11 @@ if __name__ == "__main__":
         csq = f[7]
         genotypes = f[9:]
         if not pos in seen:
-            weight_str += isoformCsqToPolyPhenWeight(pos, csq)
+            if use_weights == "TRUE":
+                weight_str += isoformCsqToPolyPhenWeight(pos, csq)
+            else:
+                weight_str += "%s %s\n" % (pos, 0.5)
+
             geno_str += convertGenotypes(pos, genotypes, csq, samples)
         else:
             print "%s: Skipping duplicate SNP at position %s:%s in file %s" % (__file__, chrom, pos, vcf_file)
