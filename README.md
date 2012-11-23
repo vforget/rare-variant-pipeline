@@ -190,28 +190,29 @@ A description of all command line flags:
     -p    [file]        Phenotype file (required).
     -x    [file]        Parameter file (required).
     -c    [file]        Covariates file (optional).
+    -k                  Keep temporary VCF files (optional).
 
-Example running pipeline for all exons from UK10K_COHORT dataset:
+Example running pipeline for all exons from from the human genome:
 
 Generate a list of target names from the region file:
 
-`cut -f 4 -d ' ' ~/share/UK10K_exomes/exomes.range.txt | sort | uniq > targets.txt`
+`cut -f 4 -d ' ' regions.txt | sort | uniq > targets.txt`
  
 Alternatively, to try 50 randomly selected genes:
  
-`cut -f 4 -d ' ' ~/share/UK10K_exomes/exomes.range.txt | sort | uniq | sort -R | head -n 50 > targets.txt`
+`cut -f 4 -d ' ' regions.txt | sort | uniq | sort -R | head -n 50 > targets.txt`
 
-Generate phenotype file:
+Generate phenotype file (this one as multiple phenotypes per sample, the 5th phenotype is chosen, header is also removed):
 
-`cut -f 2,6 ~/share/UK10K_exomes/merged/pheno.txt | tail -n +2 > pheno.txt`
+`cut -f 1,6 pheno.txt | tail -n +2 > pheno.txt`
 	
-Copy default parameters from template to param.txt.
+Copy default parameters from  [template](https://docs.google.com/spreadsheet/ccc?key=0AgyWLMiisFxAdGNSanhvQ2gtc1g2dkFMeTR3THhDSlE) to param.txt.
 
-Run pipeline:
+Run pipeline for the 50 random targets:
 
 	run_pipeline.bash \  
-	    -r ~/share/UK10K_exomes/exomes.range.txt \  
+	    -r regions.txt \  
 		-t targets.rand50.txt \  
-		-v <path_to_UK10K_release> \  
+		-v <path_to_chromosome_VCF_files> \  
 		-p pheno.txt \  
 		-x params.txt
