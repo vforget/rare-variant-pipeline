@@ -121,6 +121,16 @@ The following describes each of these parameters:
 * RR\_MAXPERM: Max allowable permutations for RR analysis.
 * RR\_NONSIG: Non-significant test count during permutation at which to stop the permutation process.
 
+* **Covariates file**: A file containing covariate values per sample. This file is optional, and is not used for VT (this RV test doesnot support covariates). Format of the file is:
+
+	sample\_id\_1    value  value  
+	sample\_id\_2    value  value  
+    sample\_id\_3    value  value  
+    sample\_id\_4    value  value  
+    sample\_id\_5    value  value  
+    sample\_id\_6    value  value  
+	
+Each line consists of 2 or more columns.  The first column is always the sample name. Subsequent columns are the covariate values. The file is specified to the pipeline via the -c option.
 
 ## Pipeline Overview
 

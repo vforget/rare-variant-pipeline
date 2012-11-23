@@ -9,7 +9,8 @@ PHENO=$4
 USE_WEIGHTS=$5
 TRAIT_TYPE=$6
 RESAMP=$7
-jid=$8
+COVFILE=$8
+jid=$9
 
 if [ ! -f "$TARGETLIST" ]; then
     echo "Target file does not exist"
@@ -75,9 +76,10 @@ do
     weightfile=${outdir}/${target}.weight
     samplefile=${outdir}/${target}.sample
     snpfile=${outdir}/${target}.snpfile
+    covfile=${outdir}/${target}.cov
     
     cat > ${jobdir}/${RID}.job <<EOF
-$bindir/vcf2skat.py ${targetfile} ${PHENO} ${genofile} ${phenofile} ${weightfile} ${samplefile} ${snpfile}
+$bindir/vcf2skat.py ${targetfile} ${PHENO} ${genofile} ${phenofile} ${COVFILE} ${weightfile} ${samplefile} ${snpfile} ${covfile}
 Rscript $bindir/skat.r ${outdir} ${target} ${USE_WEIGHTS} $TRAIT_TYPE ${RESAMP} > ${outdir}/${target}.skatout 2> ${outdir}/${target}.R.log
 grep ${target} ${outdir}/${target}.skatout | perl -p -e "s/.*\"([^\"]+)\".*/\1/g;" > ${outdir}/${target}.skline
 EOF

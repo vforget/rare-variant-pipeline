@@ -162,7 +162,7 @@ fi
 # Run SKAT
 if [ "$SKAT_RUN" == "Y" ]; then
     echo "** SKAT **"
-    $bindir/05_skat.bash $TARGET_FILE $target_vcfdir/output/ $skatout/ $PHENO_FILE $SKAT_USE_WEIGHTS $SKAT_TRAIT_TYPE $SKAT_RESAMP_SIZE $skat_jid
+    $bindir/05_skat.bash $TARGET_FILE $target_vcfdir/output/ $skatout/ $PHENO_FILE $SKAT_USE_WEIGHTS $SKAT_TRAIT_TYPE $SKAT_RESAMP_SIZE $COVAR_FILE $skat_jid
     
 fi
 
@@ -173,4 +173,4 @@ if [ "$RR_RUN" == "Y" ]; then
 fi
 
 # Clean up
-echo "rm -Rf windows/ tvcf/" | qsub -V -cwd -q all.q -N rm$RANDOM -hold_jid "$vt_jid,$skat_jid,$rr_jid"
+# echo "rm -Rf windows/ tvcf/" | qsub -V -cwd -q all.q -N rm$RANDOM -hold_jid "$vt_jid,$skat_jid,$rr_jid"

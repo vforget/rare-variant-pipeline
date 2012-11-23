@@ -38,14 +38,25 @@ if __name__ == "__main__":
     pheno_file = sys.argv[2]
     geno_outfile = sys.argv[3]
     pheno_outfile = sys.argv[4]
-    weight_outfile = sys.argv[5]
-    sample_outfile = sys.argv[6]
-    snp_outfile = sys.argv[7]
-
+    cov_file = sys.argv[5]
+    weight_outfile = sys.argv[6]
+    sample_outfile = sys.argv[7]
+    snp_outfile = sys.argv[8]
+    cov_outfile = sys.argv[9]
+    
     pheno = {}
     for x in open(pheno_file):
         f = x.strip().split()
         pheno[f[0]] = f[1]
+    
+        
+    cov = {}
+    cov_num = 0
+    if cov_file != "None":
+        for x in open(cov_file):
+            f = x.strip().split()
+            cov_num = len(f[1:])
+            cov[f[0]] = f[1:]
 
     # Ignore comments
     lines = [x.split("\t") for x in open(vcf_file).readlines() if x[0:2] != '##']
@@ -128,3 +139,12 @@ if __name__ == "__main__":
         else:
             print >> of, -9
     of.close()
+    
+    if cov_file != "None":
+        of = open(cov_outfile, "w")
+        for s in samples:
+            if s in cov:
+                print >> of, "\t".join(cov[s])
+            else:
+                print >> of, "\t".join(["-9"] * cov_num)
+        of.close()
