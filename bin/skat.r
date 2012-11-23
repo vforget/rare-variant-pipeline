@@ -18,7 +18,7 @@ p = as.matrix(pheno)
 w = as.matrix(weights)
 
 obj <- NULL
-covf = paste(path, ".cov2", sep="")
+covf = paste(path, ".cov", sep="")
 if (file.exists(covf)){
   covar = read.table(covf, header=F)
   print("SKAT with covariates")
