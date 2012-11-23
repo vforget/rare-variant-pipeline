@@ -20,6 +20,7 @@ Primary options:
 -p    [file]        Phenotype file (required).
 -x    [file]        Parameter file (required).
 -c    [file]        Covariates file (optional).
+-k                  Keep temporary VCF files (optional).
 EOF
 }
 
@@ -38,8 +39,9 @@ VCF_DIR=
 PHENO_FILE=
 PARAM_FILE=
 COVAR_FILE="None"
+KEEP_VCF="FALSE"
 
-while getopts hr:t:v:p:x:c: OPTION
+while getopts hr:t:v:p:x:c:k OPTION
 do
     case $OPTION in
 	h)
@@ -88,6 +90,9 @@ do
 		echo "${progname} -- Source VCF directory is non-existent"
 		exit 1
 	    fi
+	    ;;	
+	k)
+	    KEEP_VCF="TRUE"
 	    ;;
 	\?)
 	    usage
@@ -110,6 +115,7 @@ echo -e "PHENO_FILE = $PHENO_FILE"
 echo -e "VCF_DIR = $VCF_DIR"
 echo -e "PARAM_FILE = $PARAM_FILE"
 echo -e "COVAR_FILE = $COVAR_FILE"
+echo -e "KEEP_VCF = $KEEP_VCF"
 echo "** Parameter from file **"
 cat $PARAM_FILE
 
@@ -172,5 +178,8 @@ if [ "$RR_RUN" == "Y" ]; then
     $bindir/06_rr.bash $TARGET_FILE $target_vcfdir/output/ $rrout/ $PHENO_FILE $RR_USE_WEIGHTS $RR_NPERM $RR_MAXPERM $RR_NONSIG $rr_jid
 fi
 
-# Clean up
-# echo "rm -Rf windows/ tvcf/" | qsub -V -cwd -q all.q -N rm$RANDOM -hold_jid "$vt_jid,$skat_jid,$rr_jid"
+if [ "$KEEP_VCF" == "FALSE" ]; then
+    echo "** RM **"
+    echo "rm -Rf windows/ tvcf/" | qsub -V -cwd -q all.q -N rm$RANDOM -hold_jid "$vt_jid,$skat_jid,$rr_jid"
+fi
+
